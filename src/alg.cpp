@@ -32,7 +32,7 @@ std::string infx2pstfx(std::string inf) {
             stack.push(c);
         } else if (c == ')') {
             while (!stack.isEmpty() && stack.see() != '(') {
-                postfix = postfix + stack.see() + ' ';
+                post = post + stack.see() + ' ';
                 stack.pop();
             }
             stack.pop();
