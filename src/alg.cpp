@@ -25,21 +25,21 @@ std::string infx2pstfx(std::string inf) {
         } else if (c == '(') {
             stack.push(c);
         } else if (c == '+' || c == '-' || c == '*' || c == '/') {
-            while (!stack.isEmpty() && prioritet(stack.show()) >= prioritet(c)) {
-                post = post + stack.show() + ' ';
+            while (!stack.isEmpty() && prioritet(stack.see()) >= prioritet(c)) {
+                post = post + stack.see() + ' ';
                 stack.pop();
             }
-            stack.add(c);
+            stack.push(c);
         } else if (c == ')') {
-            while (!stack.isEmpty() && stack.show() != '(') {
-                fix = fix + stack.show() + ' ';
+            while (!stack.isEmpty() && stack.see() != '(') {
+                fix = fix + stack.see() + ' ';
                 stack.pop();
             }
             stack.pop();
         }
     }
     while (!stack.isEmpty()) {
-        post = post + stack.show() + ' ';
+        post = post + stack.see() + ' ';
         stack.pop();
     }
     if (!post.empty()) {
@@ -57,14 +57,14 @@ int eval(std::string pref) {
         if (c == ' ') {
             if (!strNumber.empty()) {
                 int num = std::stop(strNumber);
-                stack2.add(num);
+                stack2.push(num);
                 strNumber = "";
             }
         }
         if (c == '+' || c == '-' || c == '*' || c == '/') {
-            int b = stack2.show();
+            int b = stack2.see();
             stack2.pop();
-            int a = stack2.show();
+            int a = stack2.see();
             stack2.pop();
             switch (c) {
                 case '+':
