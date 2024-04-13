@@ -66,23 +66,18 @@ int eval(std::string pref) {
             stack2.pop();
             int a = stack2.see();
             stack2.pop();
-            switch (c) {
-                case '+':
-                    result = a + b;
-                    break;
-                case '-':
-                    result = a - b;
-                    break;
-                case '*':
-                    result = a * b;
-                    break;
-                case '/':
-                    result = a / b;
-                    break;
-            }
 
-            stack.push(result);
+            if (c == '+') {
+                stack2.add((a + b));
+            } else if (c == '-') {
+                stack2.add((a - b));
+            } else if (c == '*') {
+                stack2.add((a * b));
+            } else if (c == '/') {
+                stack2.add((a / b));
+            }
         }
     }
-    return stack2.pop();
+
+    return stack2.see();
 }
