@@ -32,7 +32,7 @@ std::string infx2pstfx(std::string inf) {
             stack.push(c);
         } else if (c == ')') {
             while (!stack.isEmpty() && stack.see() != '(') {
-                fix = fix + stack.see() + ' ';
+                postfix = postfix + stack.see() + ' ';
                 stack.pop();
             }
             stack.pop();
@@ -56,7 +56,7 @@ int eval(std::string pref) {
         }
         if (c == ' ') {
             if (!strNumber.empty()) {
-                int num = std::stop(strNumber);
+                int num = std::stoi(strNumber);
                 stack2.push(num);
                 strNumber = "";
             }
@@ -68,13 +68,13 @@ int eval(std::string pref) {
             stack2.pop();
 
             if (c == '+') {
-                stack2.add((a + b));
+                stack2.push((a + b));
             } else if (c == '-') {
-                stack2.add((a - b));
+                stack2.push((a - b));
             } else if (c == '*') {
-                stack2.add((a * b));
+                stack2.push((a * b));
             } else if (c == '/') {
-                stack2.add((a / b));
+                stack2.push((a / b));
             }
         }
     }
