@@ -1,6 +1,6 @@
 // Copyright 2021 NNTU-CS
-#ifndef INCLUDE_TSTACc_H_
-#define INCLUDE_TSTACc_H_
+#ifndef INCLUDE_TSTACK_H_
+#define INCLUDE_TSTACK_H_
 #include <string>
 
 template<typename T, int size>
