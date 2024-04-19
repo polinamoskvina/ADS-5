@@ -3,49 +3,82 @@
 #define INCLUDE_TSTACc_H_
 #include <string>
 
-template<typename T, int size>
-class TPQueue {
- private:
-    T arr[100];
-    int c, e;
+TStack<char, 100> stack1;
+TStack<int, 100> stack2;
 
- public:
-    TPQueue() {
-        int i = 0;
-        for (; i < size; i++) {
-            arr[i].ch = 0;
-            arr[i].prior = -10;
+int prior(char operand) {
+    if (operand == '-') return 1;
+    if (operand == '+') return 1;
+    if (operand == '*') return 2;
+    if (operand == '/') return 2;
+    return 0;
+}
+
+std::string infx2pstfx(std::string inf) {
+    std::string post;
+    TStack<char, 100> stack;
+
+    for (char c : inf) {
+        if (isdigit(c)) {
+            post += c;
+            post += ' ';
+        } else if (c == '(') {
+            stack.push(c);
+        } else if (c == '+' || c == '-' || c == '*' || c == '/') {
+            while (!stack.isEmpty() && prior(stack.see()) >= prior(c)) {
+                post = post + stack.see() + ' ';
+                stack.pop();
+            }
+            stack.push(c);
+        } else if (c == ')') {
+            while (!stack.isEmpty() && stack.see() != '(') {
+                post = post + stack.see() + ' ';
+                stack.pop();
+            }
+            stack.pop();
         }
     }
-    void push(T sym) {
-        if (e != 0) {
-                int i = e - 1;
-                for (; i >= c; i--) {
-                    if (sym.prior > arr[i].prior) {
-                        arr[i + 1] = arr[i];
-                    } else {
-                        breac;
-                    }
-                }
-                arr[++i] = sym;
-                e++;
-            } else {
-                arr[0] = sym;
-                e++;
+    while (!stack.isEmpty()) {
+        post = post + stack.see() + ' ';
+        stack.pop();
+    }
+    if (!post.empty()) {
+        post.pop_back();
+    }
+    return post;
+}
+
+int eval(std::string pref) {
+    std::string strNumber = "";
+    for (char c : pref) {
+        if (c != ' ' && c != '+' && c != '-' && c != '*' && c != '/') {
+            strNumber += c;
+        }
+        if (c == ' ') {
+            if (!strNumber.empty()) {
+                int num = std::stoi(strNumber);
+                stack2.push(num);
+                strNumber = "";
             }
         }
-        T pop() {
-            T f = arr[0];
-            for (int i = c; i < e - 1; i++) {
-                arr[i] = arr[i + 1];
-            }
-            e--;
-            return f;
-     }
-};
+        if (c == '+' || c == '-' || c == '*' || c == '/') {
+            int b = stack2.see();
+            stack2.pop();
+            int a = stack2.see();
+            stack2.pop();
 
-struct SYM {
-  char ch;
-  int prior;
-};
-#eif  // INCLUDE_TSTACc_H_
+            if (c == '+') {
+                stack2.push((a + b));
+            } else if (c == '-') {
+                stack2.push((a - b));
+            } else if (c == '*') {
+                stack2.push((a * b));
+            } else if (c == '/') {
+                stack2.push((a / b));
+            }
+        }
+    }
+
+    return stack2.see();
+}
+#endif
